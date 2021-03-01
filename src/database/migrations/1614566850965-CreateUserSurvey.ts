@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateSurveysUsers1614543713368 implements MigrationInterface {
+export class CreateUserSurvey1614566850965 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -10,7 +10,7 @@ export class CreateSurveysUsers1614543713368 implements MigrationInterface {
                     {
                         name: "id",
                         type: "uuid",
-                        isPrimary: true
+                        isPrimary: true,
                     },
                     {
                         name: "user_id",
@@ -23,17 +23,17 @@ export class CreateSurveysUsers1614543713368 implements MigrationInterface {
                     {
                         name: "value",
                         type: "number",
-                        isNullable: true
+                        isNullable: true,
                     },
                     {
                         name: "created_at",
                         type: "timestamp",
-                        default: "now()"
-                    }
+                        default: "now()",
+                    },
                 ],
                 foreignKeys: [
                     {
-                        name: "FKuser",
+                        name: "FKUser",
                         referencedTableName: "users",
                         referencedColumnNames: ["id"],
                         columnNames: ["user_id"],
@@ -47,14 +47,13 @@ export class CreateSurveysUsers1614543713368 implements MigrationInterface {
                         columnNames: ["survey_id"],
                         onDelete: "CASCADE",
                         onUpdate: "CASCADE",
-                    }
-                ]
+                    },
+                ],
             })
-        )
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("surveys_users")
+        await queryRunner.dropTable("surveys_users");
     }
-
 }

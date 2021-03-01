@@ -8,9 +8,9 @@ export class CreateSurvets1614520814744 implements MigrationInterface {
                 name: "surveys",
                 columns: [
                     {
-                        name: "id",
+                        name:"id",
                         type: "uuid",
-                        isPrimary: true
+                        isPrimary: true,
                     },
                     {
                         name: "title",
@@ -31,7 +31,7 @@ export class CreateSurvets1614520814744 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("surveys")
+        await queryRunner.dropTable("surveys");
     }
 
 }

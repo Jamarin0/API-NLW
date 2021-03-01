@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import {resolve} from 'path';
 import { getCustomRepository } from "typeorm";
 import { SurveysRepository } from "../repositories/SurveysRepository";
-import { SurveysUserRepository } from "../repositories/SurveysUserRepository";
+import { SurveysUsersRepository } from "../repositories/SurveysUsersRepository";
 import { UsersRepository } from "../repositories/UsersRepository";
 import SendMailService from "../services/SendMailService";
 
@@ -13,10 +13,10 @@ class SendMailController {
 
         const userRepository = getCustomRepository(UsersRepository);
         const surveysRepository = getCustomRepository(SurveysRepository);
-        const surveysUsersRepository = getCustomRepository(SurveysUserRepository);
+        const surveysUsersRepository = getCustomRepository(SurveysUsersRepository);
 
         const user = await userRepository.findOne({email});
-
+console.log('aquela penetrada',user);
         if(!user) {
             return response.status(400).json({
                 error: "User does not exists",
@@ -24,6 +24,7 @@ class SendMailController {
         }
 
         const survey = await surveysRepository.findOne({id: survey_id});
+        console.log('aquela penetrada',survey);
 
         if(!survey) {
             return response.status(400).json({
@@ -38,11 +39,12 @@ class SendMailController {
             user_id: user.id,
             link:process.env.URL_MAIL,
         };
-        const npsPath = resolve(__dirname, "..", "views", "emails", "npsMail.hbs");
+        const npsPath = resolve(__dirname, "..", "views", "emails", "npsmail.hbs");
+        console.log('aquela penetrada',npsPath);
 
         const surveyUserAlreadyExists = await surveysUsersRepository.findOne({
             where: [{user_id: user.id}, {value: null}],
-            relations: ["user","survey"],
+            relations: ["users","surveys"],
         });
 
         if(surveyUserAlreadyExists) {
